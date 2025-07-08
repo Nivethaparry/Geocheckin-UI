@@ -21,7 +21,7 @@ const MapComponent = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId , !date) return;
+    if (!userId || !date) return;
 
     const container = popupRef.current;
     let map;
@@ -29,18 +29,20 @@ const MapComponent = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`https://localhost:7252/api/Attendances/GetAllAttendanceHistory?userId=1`);
+        const res = await axios.get(`https://localhost:7252/api/Attendances/GetDateAttendanceHistory?userId=${userId}&date=${date}`);
 
-        // https://localhost:7252/api/Attendances/History?userId=${userId}&date=${date}
-        const records = res.data.records || [];
+        const records = res.data || [];
 
         const markers = [];
 
         records.forEach((record) => {
           (record.details || []).forEach((detail) => {
             if (detail.latitude !== 0 && detail.longitude !== 0) {
+              console.log("Creating marker at:", detail.latitude, detail.longitude)
               if (detail.checkIn) {
-                const formattedCheckIn = new Date(detail.checkIn).toLocaleString("en-US", {
+                console.log("Raw CheckIn Time:", detail.checkIn);
+                const formattedCheckIn = new Date(detail.checkIn).toLocaleString("en-GB", {
+                  timeZone: "Asia/Kolkata",
                   weekday: "long",
                   year: "numeric",
                   month: "2-digit",
@@ -56,7 +58,9 @@ const MapComponent = () => {
                 });
               }
               if (detail.checkOut) {
-                const formattedCheckOut = new Date(detail.checkOut).toLocaleString("en-US", {
+                console.log("Raw CheckOut Time:", detail.checkOut);
+                const formattedCheckOut = new Date(detail.checkOut).toLocaleString("en-GB", {
+                  timeZone: "Asia/Kolkata",
                   weekday: "long",
                   year: "numeric",
                   month: "2-digit",
@@ -74,6 +78,7 @@ const MapComponent = () => {
             }
           });
         });
+       
 
         const features = markers.map((marker) => {
           const coords = fromLonLat(marker.coords);
@@ -95,6 +100,8 @@ const MapComponent = () => {
           );
           return feature;
         });
+        console.log("Number of markers:", markers.length);
+        console.log("Feature coordinates:", features.map(f => f.getGeometry().getCoordinates()));
 
         const vectorLayer = new VectorLayer({
           source: new VectorSource({ features }),

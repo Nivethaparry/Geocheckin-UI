@@ -170,15 +170,12 @@ const ManageUsers = () => {
                       Edit user profile 
                     </Dropdown.Item>
                     <Dropdown.Item
-  onClick={() => {
-    console.log("Clicked user:", userItem);
-    setShowDatePickerForUser(userItem.userId); 
-  }}
->
-  Attendance
-</Dropdown.Item>
-
-
+                      onClick={() => {
+                        console.log("Clicked user:", userItem);
+                        setShowDatePickerForUser(userItem.userId); 
+                     }}>
+                    Attendance
+                    </Dropdown.Item>
 
                   </Dropdown.Menu>
                 </Dropdown>
@@ -198,7 +195,7 @@ const ManageUsers = () => {
                border: '2px solid red'
           }}
           onClick={() => setShowDatePickerForUser(null)}
-          >showDatePickerForUser: {JSON.stringify(showDatePickerForUser)}
+          >
           <div
             onClick={(e) => e.stopPropagation()} 
             style={{
