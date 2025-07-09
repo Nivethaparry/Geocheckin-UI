@@ -42,14 +42,10 @@ const Profile = () => {
 
 
   const handleLogout = () => {
-    // localStorage.clear();
-    //  dispatch(logout());
     dispatch(logout())
     persistor.purge();
     navigate('/');
   };
-
-
 
   const navigateTo = (path) => () => navigate(path);
 
@@ -110,14 +106,12 @@ const Profile = () => {
   </div>
 </div>
 
-
      <Button variant="dark" className="w-100 mt-4"onClick={handleLogout}>
         Log Out
       </Button>
 </div>
     </Container>
     <BottomNav role={role} />
-   
     </>
   );
 };

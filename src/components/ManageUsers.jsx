@@ -9,22 +9,19 @@ import image from '../assets/image.png'
 import { useNavigate, useLocation } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import { useSelector } from 'react-redux'; 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { useParams } from 'react-router-dom';
 
-const ManageUsers = () => { 
+ const ManageUsers = () => { 
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
   const [search, setSearch] = useState('');
-  const [showDatePickerForUser, setShowDatePickerForUser] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
 
   const navigate = useNavigate();
   const location = useLocation();
   const user = useSelector(state => state.auth.user);
   const role = useSelector((state) => state.auth.user?.roleName);
+  const { userId } = useParams();
 
 
   useEffect(() => {
@@ -84,15 +81,8 @@ const ManageUsers = () => {
             <Dropdown>
               <Dropdown.Toggle
                   variant="light"
-                  style={{
-                        borderRadius: '999px',
-                        fontWeight: 500,
-                        padding: '6px 16px',
-                        backgroundColor: '#f1f1f1',
-                        color: '#000',
-                        border: 'none',
-                        width: '100%',
-                        textAlign: 'left'}}>
+                  style={{ borderRadius: '999px', fontWeight: 500, padding: '6px 16px', backgroundColor: '#f1f1f1',
+                                 color: '#000', border: 'none', width: '100%', textAlign: 'left'}}>
                        Users
               </Dropdown.Toggle>
 
@@ -124,7 +114,7 @@ const ManageUsers = () => {
                   textAlign: 'left',
                 }}
               >
-                Status
+              Status
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {[  'Active', 'Inactive'].map((status) => (
@@ -170,10 +160,7 @@ const ManageUsers = () => {
                       Edit user profile 
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        console.log("Clicked user:", userItem);
-                        setShowDatePickerForUser(userItem.userId); 
-                     }}>
+                       onClick={() => navigate(`/userattendance/${userItem.userId}`)}>
                     Attendance
                     </Dropdown.Item>
 
@@ -184,57 +171,6 @@ const ManageUsers = () => {
           ))}
         </div>
 
-          {showDatePickerForUser && (
-          <div style={{
-              position: "fixed",
-               top: 0, left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "rgba(0,0,0,0.3)",
-              zIndex: 1999,
-               border: '2px solid red'
-          }}
-          onClick={() => setShowDatePickerForUser(null)}
-          >
-          <div
-            onClick={(e) => e.stopPropagation()} 
-            style={{
-            position: "fixed",
-            top: "30%",
-            left: "50%",
-            transform: "translate(-50%, -30%)",
-            backgroundColor: "white",
-            padding: 20,
-            borderRadius: 10,
-            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-            zIndex: 2000,
-      }}
-    >
-      <h5 className="mb-3">Select a date</h5>
-      <DatePicker
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        dateFormat="yyyy-MM-dd"
-        className="form-control"
-      />
-      <div className="d-flex justify-content-end mt-3">
-        <Button variant="secondary" onClick={() => setShowDatePickerForUser(null)} className="me-2">
-          Cancel
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => {
-            const formattedDate = selectedDate.toISOString().split("T")[0];
-            navigate(`/map/${showDatePickerForUser}/${formattedDate}`);
-            setShowDatePickerForUser(null);
-          }}
-        >
-          View Map
-        </Button>
-      </div>
-    </div>
-  </div>
-)}
 
         <div
           style={{position: 'fixed', bottom: 120, left: '50%', transform: 'translateX(-50%)', width: '100%',

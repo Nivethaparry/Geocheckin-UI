@@ -15,6 +15,7 @@ import ChangePassword from './pages/ChangePassword' ;
 import AddNewUser from './components/AddNewUser';
 import EditUser from './components/EditUser';
 import ManageRole from './components/ManageRole';
+import UserAttendance from './components/UserAttendance';
 import MapComponent from './components/MapComponent';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
@@ -52,7 +53,8 @@ function App() {
         <Route path="/addnewuser" element={ <RequireAdmin> <AddNewUser />  </RequireAdmin>} />
         <Route path="/edituser" element={ <RequireAdmin> <EditUser />  </RequireAdmin>} />
         <Route path="/manageRole" element={ <RequireAdmin> <ManageRole />  </RequireAdmin>} />
-        <Route path="/map/:userId/:date" element={<MapComponent />} />
+        <Route path="/userattendance/:userId" element={ <RequireAdmin> <UserAttendance /> </RequireAdmin>} />
+        <Route path="/mapcomponent/:userId/:date" element={<MapComponent />} />
    
       </Routes>
 
