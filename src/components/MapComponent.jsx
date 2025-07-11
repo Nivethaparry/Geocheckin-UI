@@ -185,8 +185,7 @@ const MapComponent = () => {
           pointerEvents: "auto",
           display: "none",
           zIndex: 1000,
-        }}
-      >
+        }} >
         <div className="card border-dark" style={{ width: "17rem" }}>
           <div className="card-header bg-dark text-white d-flex justify-content-between align-items-center">
             <span id="popup-title">Info</span>
