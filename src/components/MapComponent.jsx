@@ -13,12 +13,46 @@ import { Icon, Style } from "ol/style";
 import { fromLonLat } from "ol/proj";
 import travelIcon from "../assets/travel.png";
 import locationIcon from "../assets/location.png";
+import {Card, Button} from 'react-bootstrap';
+import { PiCaretCircleDown, PiCaretCircleUp } from 'react-icons/pi';
+import { MdSkipPrevious } from "react-icons/md";
+import { MdSkipNext } from "react-icons/md";
+import BottomNav from '../components/BottomNav';
+import { useSelector } from 'react-redux';
 
 const MapComponent = () => {
   const mapRef = useRef();
   const popupRef = useRef();
   const { userId , date } = useParams();
   const [loading, setLoading] = useState(true);
+  const[ details, setDetails] =useState([]);
+  const [totalHours, setTotalHours] = useState('');
+  const [attendanceData, setAttendanceData] = useState(null);
+
+  const role = useSelector((state) => state.auth.user?.roleName);
+
+
+  const formatDateTime = (isoString) => {
+        if (!isoString) return "N/A";
+       const date = new Date(isoString + "Z"); 
+      return date.toLocaleString("en-GB", {
+      timeZone: "Asia/Kolkata",
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      });
+       };
+
+    const formatTime = (decimalHours) => {
+    const totalMinutes = Math.round(decimalHours * 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours}h ${minutes}m`;
+  };
 
   useEffect(() => {
     if (!userId || !date) return;
@@ -31,7 +65,21 @@ const MapComponent = () => {
       try {
         const res = await axios.get(`https://localhost:7252/api/Attendances/GetDateAttendanceHistory?userId=${userId}&date=${date}`);
 
-        const records = res.data || [];
+       console.log("Backend response:", res.data);
+      // const records = res.data || [];
+      //  setDetails(records);
+
+      const records = res.data || [];
+      // const allDetails = records.flatMap((record) => record.details || []);
+      // setDetails(allDetails);
+
+      if (records.length > 0) {
+  setAttendanceData(records[0]); // Assuming only one record per user/date
+  setDetails(records[0].details || []);
+} else {
+  setAttendanceData(null);
+  setDetails([]);
+}
 
         const markers = [];
 
@@ -41,7 +89,8 @@ const MapComponent = () => {
               console.log("Creating marker at:", detail.latitude, detail.longitude)
               if (detail.checkIn) {
                 console.log("Raw CheckIn Time:", detail.checkIn);
-                const formattedCheckIn = new Date(detail.checkIn).toLocaleString("en-GB", {
+                const checkInTime = new Date(detail.checkIn +"Z");
+                const formattedCheckIn = checkInTime.toLocaleString("en-GB",{
                   timeZone: "Asia/Kolkata",
                   weekday: "long",
                   year: "numeric",
@@ -59,7 +108,8 @@ const MapComponent = () => {
               }
               if (detail.checkOut) {
                 console.log("Raw CheckOut Time:", detail.checkOut);
-                const formattedCheckOut = new Date(detail.checkOut).toLocaleString("en-GB", {
+                const checkOutTime=new Date(detail.checkOut +"z");
+                 const formattedCheckOut = checkOutTime.toLocaleString("en-GB", {
                   timeZone: "Asia/Kolkata",
                   weekday: "long",
                   year: "numeric",
@@ -78,7 +128,8 @@ const MapComponent = () => {
             }
           });
         });
-       
+
+        
 
         const features = markers.map((marker) => {
           const coords = fromLonLat(marker.coords);
@@ -201,6 +252,42 @@ const MapComponent = () => {
           </div>
         </div>
       </div>
+   
+    <div className="d-flex g-5 justify-content-between align-item-center mt-5 shadow-sm p-1" style={{maxWidth: 400, backgroundColor: 'white',borderRadius: 8,  padding:'2px' , margin:'auto' }}>
+      
+     <div><Button className=" p-1 mt-3" variant="dark"><MdSkipPrevious /> Prev
+      </Button></div>
+     {attendanceData &&  (
+      <div>
+      <p><strong>Date : </strong>{new Date(attendanceData.date).toLocaleDateString('en-GB')}</p>
+      <p><strong>Total Hours Worked : </strong> {formatTime(attendanceData.totalHours)}</p>
+     </div>
+   )}
+   <div><Button className=" p-1 mt-3" variant="dark" >Next <MdSkipNext /></Button></div>
+
+   </div>
+  
+
+      <div className="mt-4" style={{maxWidth: 400, backgroundColor: 'white',borderRadius: 8,  padding:'2px' , margin:'auto'}}>
+      {Array.isArray(details) && details.length > 0 &&
+        details.map((item, idx) => (
+        <Card key={idx} className="mb-2 shadow-sm">
+        <Card.Body>
+          
+          <div className="d-flex align-items-center mb-2">
+          <span style={{ fontSize: '1.2rem', color: 'green', marginRight: '8px' }}>  <PiCaretCircleDown style={{ fontSize: '1.5rem' }} /><br /></span>
+          <strong>CheckIN : </strong> {formatDateTime( item.checkIn)}
+          </div>
+          <div className="d-flex align-items-center mb-2">
+          <span style={{ fontSize: '1.2rem', color: 'red', marginRight: '8px' }}>  <PiCaretCircleUp style={{ fontSize: '1.5rem' }} /><br /></span>
+          <strong>CheckOut : </strong> {formatDateTime( item.checkOut)}
+          </div>
+        </Card.Body>
+      </Card>
+    ))
+  }
+</div>
+  <BottomNav role={role} />
     </>
   );
 };

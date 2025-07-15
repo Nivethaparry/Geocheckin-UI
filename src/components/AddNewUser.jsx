@@ -149,7 +149,6 @@ const navigate = useNavigate();
              
               <option>Admin</option>
               <option>Employee</option>
-               <option>Manager</option>
             </Form.Select>
           </Form.Group>
 
@@ -170,7 +169,6 @@ const navigate = useNavigate();
               <option>Junior Developer</option>
               <option>Senior Developer</option>
               <option>Team Lead</option>
-              <option>Manager</option>
             </Form.Select>
           </Form.Group>
 
@@ -180,8 +178,7 @@ const navigate = useNavigate();
               name="department"
               value={formData.department}
               onChange={handleChange}
-              required
-            >
+              required>
               <option>Select</option>
               <option>IT Services</option>
               <option>UI/UX Design</option>

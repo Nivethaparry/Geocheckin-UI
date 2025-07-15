@@ -52,9 +52,9 @@ const Profile = () => {
 
   return (
     <>
-    <Container fluid className="d-flex align-item-center mt-5 mb-5" style={{fontFamily: " sans-serif" }}>
+    <Container fluid className="d-flex align-item-center mt-4 mb-5" style={{fontFamily: " sans-serif" }}>
          <div className=" profile-wrapper ">
-         <div className="d-flex align-items-center pb-3 mb-5"  style={{ borderBottom: '0.5px solid #ced4da' }}>
+         <div className="d-flex align-items-center pb-4 mb-5"  style={{ borderBottom: '0.5px solid #ced4da' }}>
           <ArrowLeft onClick={() => navigate(-1)} style={{ cursor: 'pointer' }} />
           <h4 className="mx-auto">Settings</h4>
          </div>

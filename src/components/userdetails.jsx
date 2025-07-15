@@ -94,7 +94,7 @@ console.log("Submitting userData:", userData);
     <>
     <div style={{  minHeight: '100vh', maxWidth: '400px', margin: 'auto', display: 'flex', justifyContent: 'center' }}>
       <div style={{ width: '100%', maxWidth: '400px', fontFamily: 'sans-serif' }}>
-        <Navbar bg="primary" className="px-3 py-2 shadow-sm" style={{ borderBottom: '1px solid #eee' }}>
+        <Navbar className="px-3 py-2 shadow-sm" style={{ borderBottom: '1px solid #eee' }}>
           <div className="d-flex align-items-center w-100">
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={() => navigate(-1)} />
             <h5 className="mx-auto fw-semibold my-3">User Details</h5>

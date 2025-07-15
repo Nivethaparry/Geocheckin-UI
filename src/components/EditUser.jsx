@@ -163,7 +163,7 @@ const handleRemovePhoto = async () => {
 
   return (
     <>
-    <Container fluid style={{ backgroundColor: "#ffffff", minHeight: "100vh", maxWidth: "400px", 
+    <Container fluid style={{ backgroundColor: "#ffffff", minHeight: "100vh", maxWidth: "400px",  
                                      margin: "0 auto", padding: "0", fontFamily: "sans-serif" }}>
       <div className='mt-4 , pb-4' style={{ display: "flex", alignItems: "center", padding: "12px 16px",  borderBottom: "1px solid #ddd" }} >
         <ArrowLeft size={20} onClick={() => navigate(-1)} style={{ cursor: "pointer" }} />

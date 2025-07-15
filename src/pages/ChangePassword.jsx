@@ -57,8 +57,8 @@ const ChangePassword = () => {
         }
       });
 
-     toast.success(response.data.message || 'Password changed successfully!');
-     navigate('/userdetails');
+      toast.success(response.data.message || 'Password changed successfully!');
+      navigate('/userdetails');
       setForm({ currentPassword: '', newPassword: '' });
     } catch (err) {
       if (err.response?.data?.message) {
@@ -72,7 +72,7 @@ const ChangePassword = () => {
 
   return (
     <>
-    <Container className="d-flex justify-content-center align-items-center mt-5">
+    <Container className="d-flex justify-content-center align-items-center mt-4" style={{position:"relative"}}>
       <div style={{ width: '100%', maxWidth: '400px', padding: '20px' , fontFamily: 'sans-serif' }}>
           <span className="d-flex  align-items-start gap-5"><ArrowLeft style={{ cursor: 'pointer' }} onClick={() => navigate(-1)} />
           <h4>Change Password</h4></span>
@@ -110,7 +110,7 @@ const ChangePassword = () => {
         </Form>
       </div>
     </Container>
-    <BottomNav role={role} />
+     <div style={{ position:"relative" , top:'200px'}}><BottomNav role={role} /></div>
    
     </>
   

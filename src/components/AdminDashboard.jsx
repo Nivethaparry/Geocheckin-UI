@@ -40,7 +40,7 @@ const Dashboard = () => {
   return (
   <>
 
-    <div style={{backgroundColor: '#ffff', minHeight: '100vh', fontFamily: 'sans-serif', fontSize: '20px',}}>
+    <div style={{backgroundColor: '#ffff', minHeight: '100vh', fontFamily: 'sans-serif', fontSize: '20px',  boxShadow: '0 0 10px rgba(0,0,0,0.1)'}}>
 
       <Navbar bg="white" variant="light" className="shadow-sm justify-content-between px-3"
           style={{ padding: '10px', maxWidth: '400px',margin: '0 auto', width: '100%', fontSize: '20px',borderBottom: '1px solid #dee2e6', }}> 

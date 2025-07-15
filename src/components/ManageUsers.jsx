@@ -88,7 +88,7 @@ import { useParams } from 'react-router-dom';
 
 
               <Dropdown.Menu>
-                {[ 'Admin', 'Employee'].map((key) => (
+                {[ 'All',' Admin', 'Employee'].map((key) => (
                   <Dropdown.Item key={key} onClick={() => {
                     setFilter(key);
                     setStatusFilter('All'); 

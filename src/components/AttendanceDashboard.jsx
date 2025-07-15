@@ -287,9 +287,9 @@ useEffect(() => {
         };
 
         const completedRecords = records
-          .filter((r) => r.totalHours && r.totalHours > 0)
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 7)
+          // .filter((r) => r.totalHours && r.totalHours > 0)
+          // .sort((a, b) => new Date(b.date) - new Date(a.date))
+          // .slice(0, 7)
           .map((record) => {
             const dateObj = new Date(record.date);
             const day = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
@@ -497,7 +497,7 @@ useEffect(() => {
         </thead>
         <tbody>
           {dailySessions.map((session, index) => {
-            const checkInTime = new Date(session.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const checkInTime = session.checkIn ? new Date(session.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '--:--';
             const checkOutTime = session.checkOut
               ? new Date(session.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
               : '--:--';
